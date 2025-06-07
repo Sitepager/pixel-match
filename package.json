@@ -1,7 +1,7 @@
 {
     "name": "@sitepager/pixel-match",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.1.0",
+    "description": "A fast, accurate, and configurable pixel-level image comparison library for Node.js, written in TypeScript. This is a drop-in replacement for the original pixelmatch library, maintaining full API compatibility while adding new features and improvements.",
     "keywords": [],
     "license": "ISC",
     "author": "rajat kumar",

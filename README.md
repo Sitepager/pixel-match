@@ -1,6 +1,8 @@
 # @sitepager/pixel-match
 
-A fast, accurate, and configurable pixel-level image comparison library for Node.js, written in TypeScript. Ported from the original pixelmatch.
+A fast, accurate, and configurable pixel-level image comparison library for Node.js, written in TypeScript. This is a drop-in replacement for the original pixelmatch library, maintaining full API compatibility while adding new features and improvements.
+
+
 
 ## Installation
 
@@ -49,6 +51,24 @@ interface PixelmatchOptions {
     diffMask?: boolean; // Whether to draw the diff over a transparent background (true) or over the original image (false)
     horizontalShiftPixels?: number; // Number of pixels to check horizontally for similar pixels. Default: 0
     verticalShiftPixels?: number; // Number of pixels to check vertically for similar pixels. Default: 0
+}
+```
+
+### Default Values
+
+When no options are provided, the following defaults are used:
+
+```typescript
+const defaultOptions = {
+    threshold: 0.1,           // 10% color difference threshold
+    includeAA: false,         // Don't detect anti-aliasing
+    alpha: 0.1,              // 10% opacity for unchanged pixels
+    aaColor: [255, 255, 0],  // Yellow for anti-aliased pixels
+    diffColor: [255, 0, 0],  // Red for different pixels
+    diffColorAlt: undefined, // No alternative color
+    diffMask: false,         // Draw diff over original image
+    horizontalShiftPixels: 0, // No horizontal shift
+    verticalShiftPixels: 0    // No vertical shift
 }
 ```
 
