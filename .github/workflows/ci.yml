@@ -1,0 +1,33 @@
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches:
+            - main
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+                  cache: 'npm'
+
+            - name: Install dependencies (workspaces)
+              run: npm install
+
+            - name: Build all packages
+              run: npm run build
+
+            - name: Run tests for all packages
+              run: npm test
