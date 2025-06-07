@@ -2,8 +2,6 @@
 
 A fast, accurate, and configurable pixel-level image comparison library for Node.js, written in TypeScript. This is a drop-in replacement for the original pixelmatch library, maintaining full API compatibility while adding new features and improvements.
 
-
-
 ## Installation
 
 ```bash
@@ -60,16 +58,16 @@ When no options are provided, the following defaults are used:
 
 ```typescript
 const defaultOptions = {
-    threshold: 0.1,           // 10% color difference threshold
-    includeAA: false,         // Don't detect anti-aliasing
-    alpha: 0.1,              // 10% opacity for unchanged pixels
-    aaColor: [255, 255, 0],  // Yellow for anti-aliased pixels
-    diffColor: [255, 0, 0],  // Red for different pixels
+    threshold: 0.1, // 10% color difference threshold
+    includeAA: false, // Don't detect anti-aliasing
+    alpha: 0.1, // 10% opacity for unchanged pixels
+    aaColor: [255, 255, 0], // Yellow for anti-aliased pixels
+    diffColor: [255, 0, 0], // Red for different pixels
     diffColorAlt: undefined, // No alternative color
-    diffMask: false,         // Draw diff over original image
+    diffMask: false, // Draw diff over original image
     horizontalShiftPixels: 0, // No horizontal shift
-    verticalShiftPixels: 0    // No vertical shift
-}
+    verticalShiftPixels: 0, // No vertical shift
+};
 ```
 
 ## Usage Examples
