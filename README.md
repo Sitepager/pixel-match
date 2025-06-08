@@ -8,6 +8,68 @@ A fast, accurate, and configurable pixel-level image comparison library for Node
 npm install @sitepager/pixel-match
 ```
 
+## CLI Usage
+
+The package includes a command-line interface for comparing images directly from your terminal.
+
+### Basic Usage
+
+```bash
+npx @sitepager/pixel-match <image1.png> <image2.png> [diff.png] [threshold] [includeAA] [horizontalShiftPixels] [verticalShiftPixels]
+```
+
+### Parameters
+
+- `image1.png`: First image to compare
+- `image2.png`: Second image to compare
+- `diff.png`: (Optional) Output path for the diff image
+- `threshold`: (Optional) Color difference threshold (0 to 1)
+- `includeAA`: (Optional) Whether to detect and ignore anti-aliasing (true/false)
+- `horizontalShiftPixels`: (Optional) Number of pixels to check horizontally for similar pixels
+- `verticalShiftPixels`: (Optional) Number of pixels to check vertically for similar pixels
+
+### Examples
+
+Basic comparison with diff output:
+
+```bash
+npx @sitepager/pixel-match before.png after.png diff.png
+```
+
+With custom threshold:
+
+```bash
+npx @sitepager/pixel-match before.png after.png diff.png 0.05
+```
+
+With threshold and anti-aliasing detection:
+
+```bash
+npx @sitepager/pixel-match before.png after.png diff.png 0.05 true
+```
+
+With threshold, anti-aliasing, and pixel shift tolerance:
+
+```bash
+npx @sitepager/pixel-match before.png after.png diff.png 0.05 true 7 6
+```
+
+### Output
+
+The CLI will output:
+
+- The time taken to perform the comparison
+- The number of different pixels found
+- The percentage of different pixels
+- A diff image if an output path is specified
+
+### Exit Codes
+
+- `0`: Images match (no differences found)
+- `64`: Invalid usage (missing required arguments)
+- `65`: Image dimensions do not match
+- `66`: Images differ (differences found)
+
 ## API
 
 ```typescript

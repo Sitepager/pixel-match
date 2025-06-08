@@ -1,20 +1,32 @@
-#!/usr/bin/env node
-
 import { PNG } from 'pngjs';
 import fs from 'node:fs';
 import pixelmatch, { PixelmatchOptions } from '../src/index.js';
 
 if (process.argv.length < 4) {
     console.log(
-        'Usage: pixelmatch image1.png image2.png [diff.png] [threshold] [includeAA]',
+        'Usage: pixelmatch image1.png image2.png [diff.png] [threshold] [includeAA] [horizontalShiftPixels] [verticalShiftPixels]',
     );
     process.exit(64);
 }
 
-const [, , img1Path, img2Path, diffPath, threshold, includeAA] = process.argv;
+const [
+    ,
+    ,
+    img1Path,
+    img2Path,
+    diffPath,
+    threshold,
+    includeAA,
+    horizontalShiftPixels,
+    verticalShiftPixels,
+] = process.argv;
 const options: PixelmatchOptions = {};
 if (threshold !== undefined) options.threshold = +threshold;
 if (includeAA !== undefined) options.includeAA = includeAA !== 'false';
+if (horizontalShiftPixels !== undefined)
+    options.horizontalShiftPixels = +horizontalShiftPixels;
+if (verticalShiftPixels !== undefined)
+    options.verticalShiftPixels = +verticalShiftPixels;
 
 const img1 = PNG.sync.read(fs.readFileSync(img1Path));
 const img2 = PNG.sync.read(fs.readFileSync(img2Path));
