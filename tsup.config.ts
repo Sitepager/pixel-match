@@ -21,7 +21,7 @@ export default defineConfig([
         sourcemap: false,
         skipNodeModulesBundle: true,
         banner: {
-            js: '#!/usr/bin/env node',
+            js: '#! /usr/bin/env node',
         },
     },
 ]);
