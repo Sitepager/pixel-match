@@ -74,6 +74,9 @@ The CLI will output:
 ### Exit Codes
 
 - `0`: Images match (no differences found)
+- `1`: Failed to read image1
+- `2`: Image dimensions do not match
+- `3`: Error running pixelmatch
 - `64`: Invalid usage (missing required arguments)
 - `65`: Image dimensions do not match
 - `66`: Images differ (differences found)
@@ -105,6 +108,83 @@ const diff = pixelmatch(
 ### Returns
 
 The number of different pixels found between the images.
+
+### Browser vs Node.js Usage
+
+The library provides two different entry points for browser and Node.js environments:
+
+#### Browser Usage
+
+```typescript
+import pixelmatch from '@sitepager/pixel-match/browser';
+
+// Example with canvas elements
+const canvas1 = document.getElementById('canvas1') as HTMLCanvasElement;
+const canvas2 = document.getElementById('canvas2') as HTMLCanvasElement;
+const outputCanvas = document.getElementById('output') as HTMLCanvasElement;
+
+const ctx1 = canvas1.getContext('2d')!;
+const ctx2 = canvas2.getContext('2d')!;
+const outputCtx = outputCanvas.getContext('2d')!;
+
+const img1 = ctx1.getImageData(0, 0, width, height);
+const img2 = ctx2.getImageData(0, 0, width, height);
+const output = outputCtx.createImageData(width, height);
+
+const diff = pixelmatch(
+  img1.data,
+  img2.data,
+  output.data,
+  width,
+  height,
+  { threshold: 0.1 }
+);
+
+outputCtx.putImageData(output, 0, 0);
+```
+
+#### Node.js Usage
+
+```typescript
+import pixelmatch from '@sitepager/pixel-match/node';
+import { readFileSync } from 'fs';
+import { PNG } from 'pngjs';
+
+// Read images
+const img1 = PNG.sync.read(readFileSync('before.png'));
+const img2 = PNG.sync.read(readFileSync('after.png'));
+const { width, height } = img1;
+const output = new PNG({ width, height });
+
+// Compare images
+const diff = await pixelmatch(
+  img1.data,
+  img2.data,
+  output.data,
+  width,
+  height,
+  { threshold: 0.1 }
+);
+
+// Save diff image
+output.pack().pipe(createWriteStream('diff.png'));
+```
+
+### When to Use Each Pattern
+
+1. **Browser Pattern** (`@sitepager/pixel-match/browser`):
+   - Use when working with canvas elements in a web browser
+   - Ideal for real-time image comparison in web applications
+   - Works with `ImageData` objects from canvas contexts
+   - Synchronous operation (no async/await needed)
+   - Best for client-side visual diff tools or image processing applications
+
+2. **Node.js Pattern** (`@sitepager/pixel-match/node`):
+   - Use when working with image files on the server
+   - Ideal for automated testing, CI/CD pipelines, or server-side image processing
+   - Works with raw image data from file systems
+   - Asynchronous operation (requires async/await)
+   - Best for automated visual regression testing or server-side image processing
 
 ## Options
 
@@ -145,7 +225,7 @@ const defaultOptions = {
 ### Basic Comparison
 
 ```typescript
-import pixelmatch from '@sitepager/pixel-match';
+import { pixelmatch } from '@sitepager/pixel-match/browser';
 
 const diff = pixelmatch(img1, img2, output, width, height);
 ```
@@ -176,6 +256,45 @@ const options = {
 const diff = pixelmatch(img1, img2, output, width, height, options);
 ```
 
+### With Custom Anti-Aliased Pixel Color
+
+```typescript
+const options = {
+    aaColor: [0, 255, 255], // Cyan for anti-aliased pixels
+};
+
+const diff = pixelmatch(img1, img2, output, width, height, options);
+```
+
+### With Alternative Diff Color for Darker Pixels
+
+```typescript
+const options = {
+    diffColor: [255, 0, 0],      // Red for differences (default)
+    diffColorAlt: [0, 0, 255],  // Blue when img2 is darker
+};
+
+const diff = pixelmatch(img1, img2, output, width, height, options);
+```
+
+### Full Example with All Options
+
+```typescript
+const options = {
+    threshold: 0.07,                // Color difference threshold
+    includeAA: true,                // Detect and ignore anti-aliasing
+    alpha: 0.3,                     // Opacity of unchanged pixels in diff
+    aaColor: [0, 255, 255],         // Cyan for anti-aliased pixels
+    diffColor: [255, 0, 0],         // Red for differences
+    diffColorAlt: [0, 0, 255],      // Blue for darker pixels in img2
+    diffMask: true,                 // Output only the diff mask
+    horizontalShiftPixels: 2,       // Allow 2px horizontal shift
+    verticalShiftPixels: 2,         // Allow 2px vertical shift
+};
+
+const diff = pixelmatch(img1, img2, output, width, height, options);
+```
+
 > ⚠️ **Beta Feature Warning**: The `horizontalShiftPixels` and `verticalShiftPixels` options are currently in beta. These features can significantly impact performance as they require additional pixel comparisons. Use with caution in production environments. We are actively working on performance optimizations for these features in an upcoming release.
 
 ## Error Cases
@@ -199,7 +318,7 @@ The library will throw errors in the following cases:
 3. **Invalid Dimensions**
     ```typescript
     // Error: "Image data size does not match width/height"
-    pixelmatch(img1, img2, null, width, height); // where width * height * 4 !== img1.length
+    pixelmatch(img1, img2, null, width, height);
     ```
 
 ## Best Practices
