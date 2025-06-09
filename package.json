@@ -16,9 +16,9 @@
         },
         "./browser": {
             "import": "./dist/browser/index.mjs",
+            "require": "./dist/browser/index.js",
             "types": "./dist/browser/index.d.mts",
-            "default": "./dist/browser/index.mjs",
-            "require": "./dist/browser/index.js"
+            "default": "./dist/browser/index.mjs"
         },
         "./node": {
             "import": "./dist/node/index.mjs",
@@ -43,7 +43,7 @@
         "bench:node": "npm run build && tsx bench/bench-node.ts",
         "build": "npm run clean && tsup",
         "changeset": "changeset",
-        "check-exports": "attw --pack .",
+        "check-exports": "attw --pack . --profile node16",
         "check-format": "prettier --check .",
         "ci": "npm run lint && npm run check-format && npm run build && npm run check-exports && npm run test",
         "clean": "rm -rf dist",

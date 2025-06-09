@@ -39,14 +39,17 @@ export function pixelmatch(
         verticalShiftPixels = 0,
     } = options;
 
-    if (
-        !isPixelData(img1) ||
-        !isPixelData(img2) ||
-        (output && !isPixelData(output))
-    )
+    if (!isPixelData(img1) || !isPixelData(img2)) {
         throw new Error(
             'Image data: Uint8Array, Uint8ClampedArray or Buffer expected.',
         );
+    }
+
+    if (output && !isPixelData(output)) {
+        throw new Error(
+            'Image data: Uint8Array, Uint8ClampedArray or Buffer expected. (Output)',
+        );
+    }
 
     if (
         img1.length !== img2.length ||

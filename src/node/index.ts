@@ -17,13 +17,15 @@ export async function pixelmatch(
     height: number,
     options: PixelmatchOptions = {},
 ): Promise<number> {
-    if (
-        !isPixelData(img1) ||
-        !isPixelData(img2) ||
-        (output && !isPixelData(output))
-    ) {
+    if (!isPixelData(img1) || !isPixelData(img2)) {
         throw new Error(
             'Image data: Uint8Array, Uint8ClampedArray or Buffer expected.',
+        );
+    }
+
+    if (output && !isPixelData(output)) {
+        throw new Error(
+            'Image data: Uint8Array, Uint8ClampedArray or Buffer expected. (Output)',
         );
     }
     if (
