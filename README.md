@@ -15,43 +15,51 @@ The package includes a command-line interface for comparing images directly from
 ### Basic Usage
 
 ```bash
-npx @sitepager/pixel-match <image1.png> <image2.png> [diff.png] [threshold] [includeAA] [horizontalShiftPixels] [verticalShiftPixels]
+npx @sitepager/pixel-match <image1> <image2> [options]
 ```
 
-### Parameters
+### Options
 
-- `image1.png`: First image to compare
-- `image2.png`: Second image to compare
-- `diff.png`: (Optional) Output path for the diff image
-- `threshold`: (Optional) Color difference threshold (0 to 1)
-- `includeAA`: (Optional) Whether to detect and ignore anti-aliasing (true/false)
-- `horizontalShiftPixels`: (Optional) Number of pixels to check horizontally for similar pixels
-- `verticalShiftPixels`: (Optional) Number of pixels to check vertically for similar pixels
+- `-o, --output <diff>`: Output diff PNG image path
+- `-t, --threshold <number>`: Matching threshold (0-1)
+- `--include-aa`: Detect and ignore anti-aliased pixels
+- `--no-include-aa`: Do not ignore anti-aliased pixels
+- `--horizontal-shift <pixels>`: Horizontal shift in pixels
+- `--vertical-shift <pixels>`: Vertical shift in pixels
+- `--alpha <number>`: Alpha value for diff mask (0-1)
+- `--diff-mask`: Output only the diff mask
+- `--help-options`: Show all pixelmatch options and exit
 
 ### Examples
 
 Basic comparison with diff output:
 
 ```bash
-npx @sitepager/pixel-match before.png after.png diff.png
+npx @sitepager/pixel-match before.png after.png --output diff.png
 ```
 
 With custom threshold:
 
 ```bash
-npx @sitepager/pixel-match before.png after.png diff.png 0.05
+npx @sitepager/pixel-match before.png after.png --output diff.png --threshold 0.05
 ```
 
 With threshold and anti-aliasing detection:
 
 ```bash
-npx @sitepager/pixel-match before.png after.png diff.png 0.05 true
+npx @sitepager/pixel-match before.png after.png --output diff.png --threshold 0.05 --include-aa
 ```
 
 With threshold, anti-aliasing, and pixel shift tolerance:
 
 ```bash
-npx @sitepager/pixel-match before.png after.png diff.png 0.05 true 7 6
+npx @sitepager/pixel-match before.png after.png --output diff.png --threshold 0.05 --include-aa --horizontal-shift 7 --vertical-shift 6
+```
+
+With diff mask and custom alpha:
+
+```bash
+npx @sitepager/pixel-match before.png after.png --output diff.png --diff-mask --alpha 0.5
 ```
 
 ### Output

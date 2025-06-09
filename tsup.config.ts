@@ -5,7 +5,7 @@ export default defineConfig([
     {
         entry: ['src/browser/index.ts'],
         outDir: 'dist/browser',
-        format: ['esm'],
+        format: ['esm', 'cjs'],
         dts: true,
         sourcemap: true,
         clean: true,
@@ -17,7 +17,7 @@ export default defineConfig([
         entry: ['src/node/index.ts', 'src/node/worker.ts'],
         outDir: 'dist/node',
         format: ['cjs', 'esm'],
-        dts: false,
+        dts: true,
         sourcemap: true,
         clean: false,
         splitting: false,
@@ -27,8 +27,8 @@ export default defineConfig([
     {
         entry: ['src/index.ts'],
         outDir: 'dist',
-        format: ['esm'],
-        dts: false,
+        format: ['esm', 'cjs'],
+        dts: true,
         sourcemap: true,
         clean: false,
         splitting: false,
@@ -46,7 +46,7 @@ export default defineConfig([
         sourcemap: false,
         skipNodeModulesBundle: true,
         banner: {
-            js: '#! /usr/bin/env node',
+            // js: '#! /usr/bin/env node',
         },
     },
 ]);

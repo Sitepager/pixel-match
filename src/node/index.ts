@@ -36,15 +36,28 @@ export async function pixelmatch(
         throw new Error('Image data size does not match width/height.');
     }
 
-    // we run the parallel version only if the images are large and you need to check for vertical shift or horizontal shift
-    if (
-        width * height < 1000000 &&
-        (options.horizontalShiftPixels || options.verticalShiftPixels)
-    ) {
+    // console.log('width * height', width * height);
+
+    const isLargeImage = width * height > 1000000;
+    const hasShift =
+        options.horizontalShiftPixels || options.verticalShiftPixels;
+    let useWorkers = false;
+
+    if (isLargeImage) {
+        useWorkers = true;
+    }
+
+    if (!isLargeImage && hasShift) {
+        useWorkers = true;
+    }
+
+    if (!useWorkers) {
+        // console.log('running browser version');
         return Promise.resolve(
             _pixelmatch_browser(img1, img2, output, width, height, options),
         );
     }
+    // console.log('running node version');
     return await _pixelmatch_node_workers(
         img1,
         img2,
