@@ -1,5 +1,11 @@
 # @sitepager/pixel-match
 
+## 0.3.0
+
+### Minor Changes
+
+- 85e3ee2: feat: refactor code for nodejs and workers that allows for faster proces
+
 ## 0.2.0
 
 ### Minor Changes
