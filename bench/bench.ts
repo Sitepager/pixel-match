@@ -1,14 +1,7 @@
-import pixelmatch from '../src';
+import { pixelmatch } from '../dist/browser/index.mjs';
 import { PNG } from 'pngjs';
-import fs from 'node:fs';
 
-function readImage(name: string): PNG {
-    return PNG.sync.read(
-        fs.readFileSync(
-            new URL('../test/fixtures/' + name + '.png', import.meta.url),
-        ),
-    );
-}
+import { readImage } from './utils';
 
 const data: [PNG, PNG][] = [1, 2, 3, 4, 5, 6, 7, 9].map((i) => [
     readImage(`${i}a`),

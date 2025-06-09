@@ -1,5 +1,11 @@
 # @sitepager/pixel-match
 
+## 0.2.0
+
+### Minor Changes
+
+- 3bc5a84: updated cli with params
+
 ## 0.1.2
 
 ### Patch Changes
