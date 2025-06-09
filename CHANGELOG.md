@@ -1,5 +1,11 @@
 # @sitepager/pixel-match
 
+## 0.4.0
+
+### Minor Changes
+
+- 4223d23: updated license and package
+
 ## 0.3.0
 
 ### Minor Changes
