@@ -3,8 +3,13 @@
     "version": "0.3.0",
     "description": "A fast, accurate, and configurable pixel-level image comparison library for Node.js, written in TypeScript. This is a drop-in replacement for the original pixelmatch library, maintaining full API compatibility while adding new features and improvements.",
     "keywords": [],
-    "license": "ISC",
-    "author": "rajat kumar",
+    "homepage": "https://www.sitepager.io/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sitepager/pixel-match.git"
+    },
+    "license": "MIT",
+    "author": "Rajat Kumar and Sitepager",
     "exports": {
         ".": {
             "browser": "./dist/browser/index.js",
