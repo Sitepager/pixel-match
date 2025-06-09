@@ -1,5 +1,10 @@
 // Utility functions shared between pixelmatch and worker
 
+/**
+ * Checks if the given array is a valid pixel data array (Uint8Array or Uint8ClampedArray).
+ * @param arr - The array to check
+ * @returns True if the array is a valid pixel data array, false otherwise
+ */
 export function isPixelData(arr: any): arr is Uint8Array | Uint8ClampedArray {
     return (
         ArrayBuffer.isView(arr) &&
@@ -8,6 +13,15 @@ export function isPixelData(arr: any): arr is Uint8Array | Uint8ClampedArray {
     );
 }
 
+/**
+ * Calculates the color difference between two pixels in the YIQ color space.
+ * @param img1 - First image data array
+ * @param img2 - Second image data array
+ * @param k - Index of the first pixel in img1
+ * @param m - Index of the second pixel in img2
+ * @param yOnly - If true, only calculates the Y component difference
+ * @returns The color difference value. Positive values indicate img1 is brighter, negative values indicate img2 is brighter
+ */
 export function colorDelta(
     img1: Uint8Array | Uint8ClampedArray,
     img2: Uint8Array | Uint8ClampedArray,
@@ -44,6 +58,14 @@ export function colorDelta(
     return y > 0 ? -delta : delta;
 }
 
+/**
+ * Draws a pixel with the specified RGB color values to the output array.
+ * @param output - The output array to draw to
+ * @param pos - The position in the output array to draw the pixel
+ * @param r - Red component (0-255)
+ * @param g - Green component (0-255)
+ * @param b - Blue component (0-255)
+ */
 export function drawPixel(
     output: Uint8Array | Uint8ClampedArray,
     pos: number,
@@ -57,6 +79,13 @@ export function drawPixel(
     output[pos + 3] = 255;
 }
 
+/**
+ * Draws a grayscale pixel to the output array based on the input image's luminance.
+ * @param img - Source image data array
+ * @param i - Index of the pixel in the source image
+ * @param alpha - Alpha value for the grayscale effect (0-1)
+ * @param output - The output array to draw to
+ */
 export function drawGrayPixel(
     img: Uint8Array | Uint8ClampedArray,
     i: number,
@@ -75,6 +104,17 @@ export function drawGrayPixel(
     drawPixel(output, i, val, val, val);
 }
 
+/**
+ * Checks if a pixel is likely to be part of an antialiased edge.
+ * @param img - Image data array
+ * @param x1 - X coordinate of the pixel to check
+ * @param y1 - Y coordinate of the pixel to check
+ * @param width - Width of the image
+ * @param height - Height of the image
+ * @param a32 - First image data as Uint32Array
+ * @param b32 - Second image data as Uint32Array
+ * @returns True if the pixel is likely part of an antialiased edge
+ */
 export function antialiased(
     img: Uint8Array | Uint8ClampedArray,
     x1: number,
@@ -129,6 +169,15 @@ export function antialiased(
     );
 }
 
+/**
+ * Checks if a pixel has many similar neighboring pixels.
+ * @param img - Image data as Uint32Array
+ * @param x1 - X coordinate of the pixel to check
+ * @param y1 - Y coordinate of the pixel to check
+ * @param width - Width of the image
+ * @param height - Height of the image
+ * @returns True if the pixel has many similar neighbors
+ */
 export function hasManySiblings(
     img: Uint32Array,
     x1: number,
@@ -152,6 +201,19 @@ export function hasManySiblings(
     return false;
 }
 
+/**
+ * Finds the best matching pixel between two images within a specified shift range.
+ * @param img1 - First image data array
+ * @param img2 - Second image data array
+ * @param x - X coordinate of the pixel to match
+ * @param y - Y coordinate of the pixel to match
+ * @param width - Width of the images
+ * @param height - Height of the images
+ * @param pos - Position of the pixel in the first image
+ * @param horizontalShiftPixels - Maximum number of pixels to shift horizontally
+ * @param verticalShiftPixels - Maximum number of pixels to shift vertically
+ * @returns The color difference value of the best matching pixel
+ */
 export function findBestMatchingPixel(
     img1: Uint8Array | Uint8ClampedArray,
     img2: Uint8Array | Uint8ClampedArray,

@@ -131,14 +131,9 @@ const img1 = ctx1.getImageData(0, 0, width, height);
 const img2 = ctx2.getImageData(0, 0, width, height);
 const output = outputCtx.createImageData(width, height);
 
-const diff = pixelmatch(
-  img1.data,
-  img2.data,
-  output.data,
-  width,
-  height,
-  { threshold: 0.1 }
-);
+const diff = pixelmatch(img1.data, img2.data, output.data, width, height, {
+    threshold: 0.1,
+});
 
 outputCtx.putImageData(output, 0, 0);
 ```
@@ -158,12 +153,12 @@ const output = new PNG({ width, height });
 
 // Compare images
 const diff = await pixelmatch(
-  img1.data,
-  img2.data,
-  output.data,
-  width,
-  height,
-  { threshold: 0.1 }
+    img1.data,
+    img2.data,
+    output.data,
+    width,
+    height,
+    { threshold: 0.1 },
 );
 
 // Save diff image
@@ -173,18 +168,19 @@ output.pack().pipe(createWriteStream('diff.png'));
 ### When to Use Each Pattern
 
 1. **Browser Pattern** (`@sitepager/pixel-match/browser`):
-   - Use when working with canvas elements in a web browser
-   - Ideal for real-time image comparison in web applications
-   - Works with `ImageData` objects from canvas contexts
-   - Synchronous operation (no async/await needed)
-   - Best for client-side visual diff tools or image processing applications
+
+    - Use when working with canvas elements in a web browser
+    - Ideal for real-time image comparison in web applications
+    - Works with `ImageData` objects from canvas contexts
+    - Synchronous operation (no async/await needed)
+    - Best for client-side visual diff tools or image processing applications
 
 2. **Node.js Pattern** (`@sitepager/pixel-match/node`):
-   - Use when working with image files on the server
-   - Ideal for automated testing, CI/CD pipelines, or server-side image processing
-   - Works with raw image data from file systems
-   - Asynchronous operation (requires async/await)
-   - Best for automated visual regression testing or server-side image processing
+    - Use when working with image files on the server
+    - Ideal for automated testing, CI/CD pipelines, or server-side image processing
+    - Works with raw image data from file systems
+    - Asynchronous operation (requires async/await)
+    - Best for automated visual regression testing or server-side image processing
 
 ## Options
 
@@ -270,8 +266,8 @@ const diff = pixelmatch(img1, img2, output, width, height, options);
 
 ```typescript
 const options = {
-    diffColor: [255, 0, 0],      // Red for differences (default)
-    diffColorAlt: [0, 0, 255],  // Blue when img2 is darker
+    diffColor: [255, 0, 0], // Red for differences (default)
+    diffColorAlt: [0, 0, 255], // Blue when img2 is darker
 };
 
 const diff = pixelmatch(img1, img2, output, width, height, options);
@@ -281,15 +277,15 @@ const diff = pixelmatch(img1, img2, output, width, height, options);
 
 ```typescript
 const options = {
-    threshold: 0.07,                // Color difference threshold
-    includeAA: true,                // Detect and ignore anti-aliasing
-    alpha: 0.3,                     // Opacity of unchanged pixels in diff
-    aaColor: [0, 255, 255],         // Cyan for anti-aliased pixels
-    diffColor: [255, 0, 0],         // Red for differences
-    diffColorAlt: [0, 0, 255],      // Blue for darker pixels in img2
-    diffMask: true,                 // Output only the diff mask
-    horizontalShiftPixels: 2,       // Allow 2px horizontal shift
-    verticalShiftPixels: 2,         // Allow 2px vertical shift
+    threshold: 0.07, // Color difference threshold
+    includeAA: true, // Detect and ignore anti-aliasing
+    alpha: 0.3, // Opacity of unchanged pixels in diff
+    aaColor: [0, 255, 255], // Cyan for anti-aliased pixels
+    diffColor: [255, 0, 0], // Red for differences
+    diffColorAlt: [0, 0, 255], // Blue for darker pixels in img2
+    diffMask: true, // Output only the diff mask
+    horizontalShiftPixels: 2, // Allow 2px horizontal shift
+    verticalShiftPixels: 2, // Allow 2px vertical shift
 };
 
 const diff = pixelmatch(img1, img2, output, width, height, options);
