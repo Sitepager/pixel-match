@@ -7,14 +7,18 @@
     "author": "rajat kumar",
     "exports": {
         ".": {
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.js",
-            "types": "./dist/index.d.ts"
+            "browser": "./dist/browser/index.js",
+            "node": "./dist/node/index.js",
+            "import": "./dist/browser/index.js",
+            "require": "./dist/node/index.js",
+            "types": "./dist/browser/index.d.ts",
+            "default": "./dist/browser/index.js"
         }
     },
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
+    "main": "dist/node/index.js",
+    "module": "dist/browser/index.js",
+    "browser": "dist/browser/index.js",
+    "types": "dist/browser/index.d.ts",
     "bin": {
         "pixelmatch": "dist/bin/pixelmatch.js"
     },
@@ -23,7 +27,9 @@
     ],
     "scripts": {
         "bench": "tsx bench/bench.ts",
-        "build": "tsup",
+        "bench:lg": "npm run build && tsx bench/bench-lg-async.ts",
+        "bench:lg-sync": "npm run build && tsx bench/bench-lg-sync.ts",
+        "build": "npm run clean && tsup",
         "changeset": "changeset",
         "check-exports": "attw --pack .",
         "check-format": "prettier --check .",
@@ -34,8 +40,10 @@
         "local-release": "changeset version && changeset publish",
         "prepublishOnly": "npm run ci",
         "test": "vitest run test/pixelmatch.test.ts",
+        "test:all": "npm run build && npm run test && npm run test:lg && npm run test:parallel",
         "test:coverage": "vitest run --coverage",
         "test:lg": "vitest run test/pixelmatch-lg.test.ts",
+        "test:parallel": "npm run build && vitest run test/pixelmatch-parallel.test.ts",
         "version": "changeset version && npm run build"
     },
     "dependencies": {

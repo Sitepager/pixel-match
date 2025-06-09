@@ -1,7 +1,7 @@
-import { diffTest } from './test-utils';
+import { diffTestAsync } from './test-utils';
 
-export function runAllTests() {
-    diffTest(
+function runAllParallelTests() {
+    diffTestAsync(
         '10main',
         '10baseline',
         '10main-diff',
@@ -10,7 +10,7 @@ export function runAllTests() {
         false,
     );
 
-    diffTest(
+    diffTestAsync(
         '10main',
         '10baseline',
         '10main-original-diff',
@@ -21,4 +21,4 @@ export function runAllTests() {
 }
 
 // --- run tests on small files ---
-runAllTests();
+runAllParallelTests();

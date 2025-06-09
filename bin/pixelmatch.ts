@@ -1,6 +1,6 @@
 import { PNG } from 'pngjs';
 import fs from 'node:fs';
-import pixelmatch, { PixelmatchOptions } from '../src/index.js';
+import { pixelmatch, PixelmatchOptions } from '../src/index.js';
 
 if (process.argv.length < 4) {
     console.log(
